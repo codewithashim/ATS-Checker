@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  
+  /* Brand Colors - ATS Checker */
+  --brand-primary: #4f46e5;          /* Indigo-600 - Main brand color */
+  --brand-primary-light: #6366f1;    /* Indigo-500 - Lighter variant */
+  --brand-primary-dark: #3730a3;     /* Indigo-700 - Darker variant */
+  --brand-secondary: #06b6d4;        /* Cyan-500 - Secondary accent */
+  --brand-secondary-light: #22d3ee;  /* Cyan-400 - Light secondary */
+  --brand-secondary-dark: #0891b2;   /* Cyan-600 - Dark secondary */
+  --brand-accent: #8b5cf6;           /* Violet-500 - Accent color */
+  --brand-success: #10b981;          /* Emerald-500 - Success/positive */
+  --brand-warning: #f59e0b;          /* Amber-500 - Warning */
+  --brand-danger: #ef4444;           /* Red-500 - Error/danger */
+  
+  /* Background variants */
+  --brand-bg-primary: #eef2ff;       /* Indigo-50 */
+  --brand-bg-secondary: #ecfeff;     /* Cyan-50 */
+  --brand-bg-accent: #f5f3ff;        /* Violet-50 */
+  
+  /* System colors using brand palette */
+  --primary: var(--brand-primary);
+  --primary-foreground: #ffffff;
+  --secondary: #f8fafc;
+  --secondary-foreground: #0f172a;
+  --muted: #f8fafc;
+  --muted-foreground: #64748b;
+  --accent: var(--brand-bg-accent);
+  --accent-foreground: var(--brand-primary);
+  --destructive: var(--brand-danger);
+  --destructive-foreground: #ffffff;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: var(--brand-primary);
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  /* Brand colors available as Tailwind utilities */
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-light: var(--brand-primary-light);
+  --color-brand-primary-dark: var(--brand-primary-dark);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-secondary-light: var(--brand-secondary-light);
+  --color-brand-secondary-dark: var(--brand-secondary-dark);
+  --color-brand-accent: var(--brand-accent);
+  --color-brand-success: var(--brand-success);
+  --color-brand-warning: var(--brand-warning);
+  --color-brand-danger: var(--brand-danger);
+  --color-brand-bg-primary: var(--brand-bg-primary);
+  --color-brand-bg-secondary: var(--brand-bg-secondary);
+  --color-brand-bg-accent: var(--brand-bg-accent);
+  
+  /* System colors */
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --radius: var(--radius);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #020817;
+    --foreground: #f8fafc;
+    
+    /* Brand colors remain the same but adjust system colors for dark mode */
+    --primary: var(--brand-primary-light);
+    --primary-foreground: #f8fafc;
+    --secondary: #1e293b;
+    --secondary-foreground: #f8fafc;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --accent: #312e81;
+    --accent-foreground: var(--brand-primary-light);
+    --destructive: var(--brand-danger);
+    --destructive-foreground: #f8fafc;
+    --border: #1e293b;
+    --input: #1e293b;
+    --ring: var(--brand-primary-light);
+  }
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  line-height: 1.6;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground);
+}
+
+/* Focus styles */
+.focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
