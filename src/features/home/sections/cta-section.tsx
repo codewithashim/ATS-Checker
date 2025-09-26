@@ -12,14 +12,14 @@ import {
 
 export function CTASection() {
   return (
-    <section className="py-32 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 relative overflow-hidden">
+    <section className="py-32 bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/40 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/40 via-transparent to-transparent" />
         
         {/* Animated Orbs */}
         <motion.div
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl"
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-indigo-500/20 to-cyan-500/20 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.2, 1],
             rotate: [0, 180, 360],
@@ -31,7 +31,7 @@ export function CTASection() {
           }}
         />
         <motion.div
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-pink-500/20 to-rose-500/20 rounded-full blur-3xl"
+          className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-violet-500/20 to-indigo-500/20 rounded-full blur-3xl"
           animate={{
             scale: [1, 0.8, 1],
             rotate: [360, 180, 0],
@@ -60,9 +60,9 @@ export function CTASection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="inline-flex items-center gap-2 mb-8 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20"
           >
-            <RocketLaunchIcon className="w-4 h-4 text-blue-300" />
-            <span className="text-blue-200 text-sm font-medium">Transform Your Career Today</span>
-            <SparklesIcon className="w-4 h-4 text-purple-300" />
+            <RocketLaunchIcon className="w-4 h-4 text-indigo-300" />
+            <span className="text-indigo-200 text-sm font-medium">Transform Your Career Today</span>
+            <SparklesIcon className="w-4 h-4 text-cyan-300" />
           </motion.div>
 
           <motion.h2
@@ -73,7 +73,7 @@ export function CTASection() {
             className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight"
           >
             Ready to{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-indigo-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">
               Transform
             </span>
             <br />
@@ -115,9 +115,9 @@ export function CTASection() {
                 <motion.div
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.5 }}
-                  className="p-2 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20"
+                  className="p-2 rounded-full bg-gradient-to-r from-indigo-500/20 to-cyan-500/20"
                 >
-                  <item.icon className="w-5 h-5 text-blue-400" />
+                  <item.icon className="w-5 h-5 text-indigo-400" />
                 </motion.div>
                 <span className="font-medium">{item.text}</span>
               </motion.div>
@@ -138,7 +138,7 @@ export function CTASection() {
             >
               <Button 
                 size="lg" 
-                className="group relative text-xl px-12 py-6 h-auto bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 shadow-lg border-0 rounded-2xl overflow-hidden min-w-[280px]"
+                className="group relative text-xl px-12 py-6 h-auto bg-gradient-to-r from-indigo-600 via-cyan-600 to-violet-600 hover:from-indigo-700 hover:via-cyan-700 hover:to-violet-700 shadow-lg border-0 rounded-2xl overflow-hidden min-w-[280px]"
               >
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-white/20 via-white/10 to-transparent"

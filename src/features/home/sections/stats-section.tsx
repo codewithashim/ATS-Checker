@@ -15,8 +15,8 @@ const stats = [
     value: 50000,
     suffix: "+",
     label: "Resumes Analyzed",
-    gradient: "from-blue-600 to-cyan-600",
-    bgGradient: "from-blue-50 to-cyan-50"
+    gradient: "from-indigo-600 to-cyan-600",
+    bgGradient: "from-indigo-50 to-cyan-50"
   },
   {
     icon: ArrowTrendingUpIcon,
@@ -31,16 +31,16 @@ const stats = [
     value: 30,
     suffix: "sec",
     label: "Average Analysis Time",
-    gradient: "from-purple-600 to-pink-600",
-    bgGradient: "from-purple-50 to-pink-50"
+    gradient: "from-violet-600 to-indigo-600",
+    bgGradient: "from-violet-50 to-indigo-50"
   },
   {
     icon: StarIcon,
     value: 4.9,
     suffix: "★",
     label: "User Rating",
-    gradient: "from-orange-600 to-red-600",
-    bgGradient: "from-orange-50 to-red-50"
+    gradient: "from-amber-600 to-orange-600",
+    bgGradient: "from-amber-50 to-orange-50"
   }
 ];
 
@@ -80,11 +80,11 @@ export function StatsSection() {
     <section className="py-32 bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-96 bg-gradient-to-br from-blue-100/30 to-purple-100/30 blur-3xl rounded-full" />
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-96 bg-gradient-to-br from-indigo-100/30 to-cyan-100/30 blur-3xl rounded-full" />
         
         {/* Floating Elements */}
         <motion.div
-          className="absolute top-1/4 left-1/4 w-32 h-32 bg-gradient-to-r from-blue-300/20 to-purple-300/20 rounded-full blur-2xl"
+          className="absolute top-1/4 left-1/4 w-32 h-32 bg-gradient-to-r from-indigo-300/20 to-cyan-300/20 rounded-full blur-2xl"
           animate={{
             x: [0, 50, 0],
             y: [0, -30, 0],
@@ -117,7 +117,7 @@ export function StatsSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent">
+          <h2 className="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-indigo-900 to-cyan-900 bg-clip-text text-transparent">
             Trusted by Professionals
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -161,7 +161,7 @@ export function StatsSection() {
                 </div>
 
                 {/* Decorative elements */}
-                <div className="absolute -top-2 -right-2 w-20 h-20 bg-gradient-to-br from-blue-200/20 to-purple-200/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
+                <div className="absolute -top-2 -right-2 w-20 h-20 bg-gradient-to-br from-indigo-200/20 to-cyan-200/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
                 <div className="absolute -bottom-2 -left-2 w-16 h-16 bg-gradient-to-br from-emerald-200/20 to-teal-200/20 rounded-full blur-xl group-hover:scale-125 transition-transform duration-500" />
               </div>
             </motion.div>
