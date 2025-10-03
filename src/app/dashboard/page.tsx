@@ -1,3 +1,5 @@
+'use client';
+
 import { ProtectedRoute, useAuth } from '@/features/auth';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
