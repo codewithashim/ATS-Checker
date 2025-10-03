@@ -63,43 +63,126 @@ export function HowItWorksSection() {
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
   return (
-    <section ref={sectionRef} className="py-32 bg-gradient-to-br from-white via-gray-50 to-indigo-50/30 relative overflow-hidden">
-      {/* Modern Background Elements */}
+    <section ref={sectionRef} className="py-32 bg-gradient-to-br from-slate-50 via-white to-indigo-50/20 relative overflow-hidden">
+      {/* Ultra-Modern Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px]" />
+        {/* Smart Grid Pattern with Enhanced Opacity */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_0.5px,transparent_0.5px),linear-gradient(to_bottom,#e2e8f0_0.5px,transparent_0.5px)] bg-[size:32px_32px] opacity-40" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,#3b82f6_0%,transparent_50%),radial-gradient(circle_at_75%_75%,#8b5cf6_0%,transparent_50%)] opacity-5" />
         
-        {/* Floating geometric shapes */}
+        {/* Smart Floating Particles */}
         <motion.div
-          className="absolute top-20 right-20 w-32 h-32 bg-gradient-to-br from-indigo-100 to-cyan-100 rounded-3xl opacity-60"
+          className="absolute top-16 right-16 w-40 h-40 bg-gradient-to-br from-blue-400/30 to-cyan-400/30 rounded-full blur-2xl"
           animate={{
-            rotate: [0, 45, 0],
-            scale: [1, 1.1, 1],
+            rotate: [0, 360],
+            scale: [1, 1.2, 1],
+            x: [0, 20, -10, 0],
+            y: [0, -15, 10, 0],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+        
+        <motion.div
+          className="absolute bottom-16 left-16 w-32 h-32 bg-gradient-to-br from-violet-400/25 to-indigo-400/25 rounded-full blur-xl"
+          animate={{
+            rotate: [360, 0],
+            scale: [1, 0.8, 1.1],
+            x: [0, -15, 5, 0],
+            y: [0, 10, -20, 0],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+
+        {/* Smart Neural Network Pattern */}
+        <motion.div
+          className="absolute top-1/3 right-1/3 w-64 h-64"
+          animate={{ rotate: [0, 360] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-200/10 to-transparent rounded-full blur-sm" />
+          <div className="absolute inset-4 bg-gradient-to-r from-transparent via-indigo-200/10 to-transparent rounded-full blur-sm" />
+          <div className="absolute inset-8 bg-gradient-to-r from-transparent via-cyan-200/10 to-transparent rounded-full blur-sm" />
+        </motion.div>
+
+        {/* Smart Geometric Shapes */}
+        <motion.div
+          className="absolute top-1/4 left-1/4 w-24 h-24 border-2 border-indigo-200/30 rounded-lg"
+          animate={{
+            rotate: [0, 45, 90, 135, 180, 225, 270, 315, 360],
+            scale: [1, 1.1, 0.9, 1],
           }}
           transition={{
             duration: 8,
             repeat: Infinity,
-            repeatType: "reverse"
+            ease: "easeInOut"
           }}
         />
         
         <motion.div
-          className="absolute bottom-20 left-20 w-24 h-24 bg-gradient-to-br from-violet-100 to-indigo-100 rounded-full opacity-40"
+          className="absolute bottom-1/4 right-1/4 w-20 h-20 bg-gradient-to-br from-emerald-300/20 to-teal-300/20 rounded-full"
           animate={{
-            y: [0, -20, 0],
-            x: [0, 10, 0],
+            scale: [1, 1.3, 0.7, 1],
+            opacity: [0.3, 0.6, 0.3],
           }}
           transition={{
             duration: 6,
             repeat: Infinity,
-            repeatType: "reverse"
+            ease: "easeInOut"
           }}
         />
 
-        {/* Gradient orbs */}
+        {/* Smart Data Flow Lines */}
         <motion.div
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-indigo-200/20 to-cyan-200/20 rounded-full blur-3xl"
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 10, repeat: Infinity, repeatType: "reverse" }}
+          className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-300/20 to-transparent"
+          animate={{
+            opacity: [0, 1, 0],
+            scaleX: [0, 1, 0],
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            delay: 1
+          }}
+        />
+        
+        <motion.div
+          className="absolute top-1/2 right-0 w-full h-px bg-gradient-to-l from-transparent via-indigo-300/20 to-transparent"
+          animate={{
+            opacity: [0, 1, 0],
+            scaleX: [0, 1, 0],
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            delay: 3
+          }}
+        />
+
+        {/* Smart Energy Orbs */}
+        <motion.div
+          className="absolute top-1/5 left-1/5 w-80 h-80 bg-gradient-to-r from-blue-100/20 via-indigo-100/20 to-purple-100/20 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1, 1.3, 1],
+            rotate: [0, 180, 360]
+          }}
+          transition={{ duration: 16, repeat: Infinity, ease: "linear" }}
+        />
+        
+        <motion.div
+          className="absolute bottom-1/5 right-1/5 w-72 h-72 bg-gradient-to-r from-emerald-100/20 via-cyan-100/20 to-blue-100/20 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            rotate: [360, 180, 0]
+          }}
+          transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
         />
       </div>
 
