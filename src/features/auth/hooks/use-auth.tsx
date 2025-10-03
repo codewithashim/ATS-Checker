@@ -1,16 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User } from '@/types';
-
-interface AuthContextType {
-  user: User | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signOut: () => void;
-  signUp: (name: string, email: string, password: string) => Promise<void>;
-}
+import { User, LoginCredentials, SignupCredentials, AuthContextType } from '../types';
+import { authAPI, AuthError } from '../services/auth-api';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -22,13 +14,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        // Check localStorage for existing user data
-        const savedUser = localStorage.getItem('user');
-        if (savedUser) {
-          setUser(JSON.parse(savedUser));
+        if (authAPI.isAuthenticated()) {
+          const currentUser = await authAPI.getCurrentUser();
+          setUser(currentUser);
         }
       } catch (error) {
         console.error('Error checking auth:', error);
+        // Clear invalid tokens
+        authAPI.logout();
       } finally {
         setIsLoading(false);
       }
@@ -40,20 +33,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signIn = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // Mock authentication - replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock user data
-      const mockUser: User = {
-        id: '1',
-        name: 'John Doe',
-        email: email,
-        role: 'job_seeker',
-        createdAt: new Date(),
-      };
-      
-      setUser(mockUser);
-      localStorage.setItem('user', JSON.stringify(mockUser));
+      const credentials: LoginCredentials = { email, password };
+      const response = await authAPI.login(credentials);
+      setUser(response.user);
     } catch (error) {
       console.error('Sign in error:', error);
       throw error;
@@ -65,20 +47,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signUp = async (name: string, email: string, password: string) => {
     setIsLoading(true);
     try {
-      // Mock registration - replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock user data
-      const mockUser: User = {
-        id: '1',
-        name: name,
-        email: email,
+      const credentials: SignupCredentials = {
+        name,
+        email,
+        password,
+        confirmPassword: password,
         role: 'job_seeker',
-        createdAt: new Date(),
+        acceptTerms: true,
       };
-      
-      setUser(mockUser);
-      localStorage.setItem('user', JSON.stringify(mockUser));
+      const response = await authAPI.signup(credentials);
+      setUser(response.user);
     } catch (error) {
       console.error('Sign up error:', error);
       throw error;
@@ -87,9 +65,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const signOut = () => {
-    setUser(null);
-    localStorage.removeItem('user');
+  const signOut = async () => {
+    setIsLoading(true);
+    try {
+      await authAPI.logout();
+    } catch (error) {
+      console.error('Sign out error:', error);
+    } finally {
+      setUser(null);
+      setIsLoading(false);
+    }
+  };
+
+  const refreshUser = async () => {
+    try {
+      if (authAPI.isAuthenticated()) {
+        const currentUser = await authAPI.getCurrentUser();
+        setUser(currentUser);
+      }
+    } catch (error) {
+      console.error('Error refreshing user:', error);
+      setUser(null);
+    }
   };
 
   const value = {
@@ -99,6 +96,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signIn,
     signOut,
     signUp,
+    refreshUser,
   };
 
   return (
