@@ -27,8 +27,8 @@ export function Checkbox({
           type="checkbox"
           id={checkboxId}
           className={cn(
-            'peer h-4 w-4 shrink-0 rounded border border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
-            error && 'border-red-500 focus:ring-red-500',
+            'peer h-4 w-4 shrink-0 rounded border border-gray-300 text-brand-primary focus:ring-2 focus:ring-brand-primary/20 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200',
+            error && 'border-red-500 focus:ring-red-500/20',
             className
           )}
           onChange={(e) => onCheckedChange?.(e.target.checked)}
@@ -47,7 +47,7 @@ export function Checkbox({
             <label
               htmlFor={checkboxId}
               className={cn(
-                'text-sm font-medium leading-none cursor-pointer',
+                'text-sm font-medium leading-none cursor-pointer text-gray-900',
                 error && 'text-red-600',
                 props.disabled && 'cursor-not-allowed opacity-70'
               )}

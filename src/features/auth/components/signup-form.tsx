@@ -132,10 +132,10 @@ export function SignupForm() {
   };
 
   const getPasswordStrengthColor = () => {
-    if (passwordStrength <= 2) return 'bg-red-500';
-    if (passwordStrength <= 3) return 'bg-yellow-500';
-    if (passwordStrength <= 4) return 'bg-blue-500';
-    return 'bg-green-500';
+    if (passwordStrength <= 2) return 'bg-brand-danger';
+    if (passwordStrength <= 3) return 'bg-brand-warning';
+    if (passwordStrength <= 4) return 'bg-brand-primary';
+    return 'bg-brand-success';
   };
 
   const getPasswordStrengthText = () => {
@@ -151,7 +151,7 @@ export function SignupForm() {
         <CardTitle className="text-2xl font-bold text-center text-gray-900">
           Create your account
         </CardTitle>
-        <CardDescription className="text-center text-gray-600">
+        <CardDescription className="text-center text-gray-700">
           Join thousands of professionals optimizing their careers
         </CardDescription>
       </CardHeader>
@@ -188,7 +188,7 @@ export function SignupForm() {
             <div className="w-full border-t border-gray-200" />
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-white text-gray-500">Or continue with email</span>
+            <span className="px-4 bg-white text-gray-600">Or continue with email</span>
           </div>
         </div>
 
@@ -204,11 +204,11 @@ export function SignupForm() {
 
           {/* Full Name Field */}
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-sm font-medium text-gray-700">
+            <Label htmlFor="name" className="text-sm font-medium text-gray-900">
               Full Name
             </Label>
             <div className="relative">
-              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-brand-primary/60 w-4 h-4" />
               <Input
                 id="name"
                 type="text"
@@ -227,11 +227,11 @@ export function SignupForm() {
 
           {/* Email Field */}
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+            <Label htmlFor="email" className="text-sm font-medium text-gray-900">
               Email Address
             </Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-brand-primary/60 w-4 h-4" />
               <Input
                 id="email"
                 type="email"
@@ -250,11 +250,11 @@ export function SignupForm() {
 
           {/* Role Selection */}
           <div className="space-y-2">
-            <Label htmlFor="role" className="text-sm font-medium text-gray-700">
+            <Label htmlFor="role" className="text-sm font-medium text-gray-900">
               I am a
             </Label>
             <div className="relative">
-              <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 z-10" />
+              <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 text-brand-primary/60 w-4 h-4 z-10" />
               <Select
                 id="role"
                 value={formData.role}
@@ -273,11 +273,11 @@ export function SignupForm() {
 
           {/* Password Field */}
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+            <Label htmlFor="password" className="text-sm font-medium text-gray-900">
               Password
             </Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-brand-primary/60 w-4 h-4" />
               <Input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
@@ -291,7 +291,7 @@ export function SignupForm() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-primary/60 hover:text-brand-primary transition-colors duration-200"
                 disabled={isLoading}
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -308,7 +308,7 @@ export function SignupForm() {
                       style={{ width: `${(passwordStrength / 5) * 100}%` }}
                     />
                   </div>
-                  <span className="text-xs font-medium text-gray-600">
+                  <span className="text-xs font-medium text-brand-primary">
                     {getPasswordStrengthText()}
                   </span>
                 </div>
@@ -328,7 +328,7 @@ export function SignupForm() {
                       ) : (
                         <AlertCircle className="w-3 h-3 text-gray-400" />
                       )}
-                      <span className={passwordChecks[key as keyof typeof passwordChecks] ? 'text-green-600' : 'text-gray-500'}>
+                      <span className={passwordChecks[key as keyof typeof passwordChecks] ? 'text-brand-success' : 'text-gray-600'}>
                         {text}
                       </span>
                     </div>
@@ -344,11 +344,11 @@ export function SignupForm() {
 
           {/* Confirm Password Field */}
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700">
+            <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-900">
               Confirm Password
             </Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-brand-primary/60 w-4 h-4" />
               <Input
                 id="confirmPassword"
                 type={showConfirmPassword ? 'text' : 'password'}
@@ -362,7 +362,7 @@ export function SignupForm() {
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-primary/60 hover:text-brand-primary transition-colors duration-200"
                 disabled={isLoading}
               >
                 {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -408,7 +408,7 @@ export function SignupForm() {
 
         {/* Sign In Link */}
         <div className="text-center pt-4 border-t border-gray-100">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-700">
             Already have an account?{' '}
             <Link
               href="/auth/login"
