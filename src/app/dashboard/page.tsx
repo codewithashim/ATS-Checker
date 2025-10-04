@@ -48,7 +48,7 @@ function DashboardContent() {
                 <div className="flex items-center space-x-2 text-sm">
                   <Calendar className="h-4 w-4 text-gray-400" />
                   <span className="text-gray-600">
-                    Joined {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}
+                    Joined {user?.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}
                   </span>
                 </div>
               </div>

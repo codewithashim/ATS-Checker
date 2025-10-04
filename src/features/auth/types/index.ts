@@ -4,16 +4,17 @@ export interface User {
   email: string;
   role: 'job_seeker' | 'recruiter';
   avatar?: string;
-  isEmailVerified: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  is_email_verified: boolean;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface AuthResponse {
   user: User;
-  token: string;
-  refreshToken: string;
-  expiresIn: number;
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
+  expires_in: number;
 }
 
 export interface LoginCredentials {

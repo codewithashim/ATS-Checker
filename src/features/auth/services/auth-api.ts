@@ -18,7 +18,7 @@ export class AuthError extends Error {
   }
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
 
 class AuthAPI {
   private baseURL: string;
@@ -86,25 +86,95 @@ class AuthAPI {
   }
 
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
-    const response = await this.request<AuthResponse>('/auth/login', {
+    // Backend uses OAuth2PasswordRequestForm which expects form data
+    const formData = new FormData();
+    formData.append('username', credentials.email);
+    formData.append('password', credentials.password);
+
+    const response = await fetch(`${this.baseURL}/auth/login`, {
       method: 'POST',
-      body: JSON.stringify(credentials),
+      body: formData,
     });
 
-    this.setToken(response.token);
-    this.setRefreshToken(response.refreshToken);
-    return response;
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new AuthError(
+        errorData.detail || 'Login failed',
+        'email',
+        errorData.code
+      );
+    }
+
+    const tokenData = await response.json();
+    
+    // Transform backend response to frontend format
+    const authResponse: AuthResponse = {
+      user: {
+        id: tokenData.user_id || '',
+        name: tokenData.name || '',
+        email: credentials.email,
+        role: tokenData.role || 'job_seeker',
+        is_email_verified: tokenData.is_email_verified || false,
+        created_at: tokenData.created_at || new Date().toISOString(),
+        updated_at: tokenData.updated_at || new Date().toISOString(),
+      },
+      access_token: tokenData.access_token,
+      refresh_token: tokenData.refresh_token,
+      token_type: tokenData.token_type,
+      expires_in: tokenData.expires_in,
+    };
+
+    this.setToken(authResponse.access_token);
+    this.setRefreshToken(authResponse.refresh_token);
+    return authResponse;
   }
 
   async signup(credentials: SignupCredentials): Promise<AuthResponse> {
-    const response = await this.request<AuthResponse>('/auth/signup', {
+    const response = await this.request<{
+      access_token: string;
+      refresh_token: string;
+      token_type: string;
+      expires_in: number;
+      user: {
+        id: string;
+        name: string;
+        email: string;
+        role: string;
+        is_email_verified: boolean;
+        created_at: string;
+        updated_at: string;
+      };
+    }>('/auth/signup', {
       method: 'POST',
-      body: JSON.stringify(credentials),
+      body: JSON.stringify({
+        name: credentials.name,
+        email: credentials.email,
+        password: credentials.password,
+        confirm_password: credentials.confirmPassword,
+        role: credentials.role,
+      }),
     });
 
-    this.setToken(response.token);
-    this.setRefreshToken(response.refreshToken);
-    return response;
+    // Transform backend response to frontend format
+    const authResponse: AuthResponse = {
+      user: {
+        id: response.user.id,
+        name: response.user.name,
+        email: response.user.email,
+        role: response.user.role as 'job_seeker' | 'recruiter',
+        is_email_verified: response.user.is_email_verified,
+        created_at: response.user.created_at,
+        updated_at: response.user.updated_at,
+      },
+      access_token: response.access_token,
+      refresh_token: response.refresh_token,
+      token_type: response.token_type,
+      expires_in: response.expires_in,
+    };
+
+    this.setToken(authResponse.access_token);
+    this.setRefreshToken(authResponse.refresh_token);
+    return authResponse;
   }
 
   async logout(): Promise<void> {
@@ -123,14 +193,44 @@ class AuthAPI {
       throw new AuthError('No refresh token available');
     }
 
-    const response = await this.request<AuthResponse>('/auth/refresh', {
+    const response = await this.request<{
+      access_token: string;
+      refresh_token: string;
+      token_type: string;
+      expires_in: number;
+    }>('/auth/refresh', {
       method: 'POST',
-      body: JSON.stringify({ refreshToken }),
+      body: JSON.stringify({ refresh_token: refreshToken }),
     });
 
-    this.setToken(response.token);
-    this.setRefreshToken(response.refreshToken);
-    return response;
+    // Get current user data to maintain user context
+    let user: User | null = null;
+    try {
+      user = await this.getCurrentUser();
+    } catch (error) {
+      // If we can't get user data, we'll need to handle this gracefully
+      console.warn('Could not get user data during token refresh:', error);
+    }
+
+    const authResponse: AuthResponse = {
+      user: user || {
+        id: '',
+        name: '',
+        email: '',
+        role: 'job_seeker',
+        is_email_verified: false,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+      access_token: response.access_token,
+      refresh_token: response.refresh_token,
+      token_type: response.token_type,
+      expires_in: response.expires_in,
+    };
+
+    this.setToken(authResponse.access_token);
+    this.setRefreshToken(authResponse.refresh_token);
+    return authResponse;
   }
 
   async forgotPassword(data: ForgotPasswordData): Promise<{ message: string }> {
@@ -161,7 +261,25 @@ class AuthAPI {
   }
 
   async getCurrentUser(): Promise<User> {
-    return await this.request('/auth/me');
+    const response = await this.request<{
+      id: string;
+      name: string;
+      email: string;
+      role: string;
+      is_email_verified: boolean;
+      created_at: string;
+      updated_at: string;
+    }>('/auth/me');
+
+    return {
+      id: response.id,
+      name: response.name,
+      email: response.email,
+      role: response.role as 'job_seeker' | 'recruiter',
+      is_email_verified: response.is_email_verified,
+      created_at: response.created_at,
+      updated_at: response.updated_at,
+    };
   }
 
   isAuthenticated(): boolean {
@@ -169,117 +287,5 @@ class AuthAPI {
   }
 }
 
-// Mock implementation for development
-class MockAuthAPI extends AuthAPI {
-  async login(credentials: LoginCredentials): Promise<AuthResponse> {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Mock validation
-    if (credentials.email === 'test@example.com' && credentials.password === 'password') {
-      const mockResponse: AuthResponse = {
-        user: {
-          id: '1',
-          name: 'John Doe',
-          email: credentials.email,
-          role: 'job_seeker',
-          isEmailVerified: true,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        token: 'mock-jwt-token',
-        refreshToken: 'mock-refresh-token',
-        expiresIn: 3600,
-      };
-
-      // Access private methods through the parent class
-      (this as any).setToken(mockResponse.token);
-      (this as any).setRefreshToken(mockResponse.refreshToken);
-      return mockResponse;
-    }
-
-    throw new AuthError('Invalid credentials', 'email');
-  }
-
-  async signup(credentials: SignupCredentials): Promise<AuthResponse> {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
-
-    // Mock validation
-    if (credentials.password !== credentials.confirmPassword) {
-      throw new AuthError('Passwords do not match', 'confirmPassword');
-    }
-
-    if (credentials.password.length < 8) {
-      throw new AuthError('Password must be at least 8 characters', 'password');
-    }
-
-    const mockResponse: AuthResponse = {
-      user: {
-        id: Math.random().toString(36).substr(2, 9),
-        name: credentials.name,
-        email: credentials.email,
-        role: credentials.role,
-        isEmailVerified: false,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      token: 'mock-jwt-token',
-      refreshToken: 'mock-refresh-token',
-      expiresIn: 3600,
-    };
-
-    // Access private methods through the parent class
-    (this as any).setToken(mockResponse.token);
-    (this as any).setRefreshToken(mockResponse.refreshToken);
-    return mockResponse;
-  }
-
-  async logout(): Promise<void> {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    (this as any).clearTokens();
-  }
-
-  async forgotPassword(data: ForgotPasswordData): Promise<{ message: string }> {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return { message: 'Password reset email sent' };
-  }
-
-  async resetPassword(data: ResetPasswordData): Promise<{ message: string }> {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return { message: 'Password reset successfully' };
-  }
-
-  async verifyEmail(token: string): Promise<{ message: string }> {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return { message: 'Email verified successfully' };
-  }
-
-  async resendVerificationEmail(): Promise<{ message: string }> {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return { message: 'Verification email sent' };
-  }
-
-  async getCurrentUser(): Promise<User> {
-    const token = (this as any).getToken();
-    if (!token) {
-      throw new AuthError('No authentication token');
-    }
-
-    await new Promise(resolve => setTimeout(resolve, 500));
-    return {
-      id: '1',
-      name: 'John Doe',
-      email: 'test@example.com',
-      role: 'job_seeker',
-      isEmailVerified: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-  }
-}
-
-// Export the appropriate API instance
-export const authAPI = process.env.NODE_ENV === 'development' 
-  ? new MockAuthAPI() 
-  : new AuthAPI();
+// Export the real API instance
+export const authAPI = new AuthAPI();
