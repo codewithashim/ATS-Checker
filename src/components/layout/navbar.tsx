@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { FileText, Menu, X, ChevronDown, Bell, User, Settings, LogOut, Sparkles } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import { useAuth } from "@/contexts/auth-context";
+import { useAuth } from "@/features/auth";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -272,19 +272,21 @@ export function Navbar() {
                 <Button 
                   variant="ghost" 
                   size="sm"
+                  asChild
                   className="text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200"
-                  onClick={() => signIn('demo@example.com', 'password')}
-                  disabled={isLoading}
                 >
-                  {isLoading ? 'Signing In...' : 'Sign In'}
+                  <Link href="/auth/login">
+                    Sign In
+                  </Link>
                 </Button>
                 <Button 
                   size="sm"
+                  asChild
                   className="bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-700 hover:to-cyan-600 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-white border-0"
-                  onClick={() => signIn('demo@example.com', 'password')}
-                  disabled={isLoading}
                 >
-                  Get Started
+                  <Link href="/auth/signup">
+                    Get Started
+                  </Link>
                 </Button>
               </>
             )}
@@ -423,20 +425,22 @@ export function Navbar() {
                   <Button 
                     variant="ghost" 
                     size="sm" 
+                    asChild
                     className="justify-start text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 py-3"
-                    onClick={() => signIn('demo@example.com', 'password')}
-                    disabled={isLoading}
                   >
-                    {isLoading ? 'Signing In...' : 'Sign In'}
+                    <Link href="/auth/login">
+                      Sign In
+                    </Link>
                   </Button>
                   <Button 
                     size="sm" 
+                    asChild
                     className="justify-start bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-700 hover:to-cyan-600 shadow-lg hover:shadow-xl transition-all duration-300 text-white py-3"
-                    onClick={() => signIn('demo@example.com', 'password')}
-                    disabled={isLoading}
                   >
-                    <Sparkles className="h-4 w-4 mr-3" />
-                    Get Started
+                    <Link href="/auth/signup">
+                      <Sparkles className="h-4 w-4 mr-3" />
+                      Get Started
+                    </Link>
                   </Button>
                 </div>
               )}

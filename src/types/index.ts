@@ -38,13 +38,19 @@ export interface UploadedFile {
   uploadedAt: Date;
 }
 
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: 'job_seeker' | 'recruiter';
-  createdAt: Date;
-}
+// Re-export auth types from features
+export type { 
+  User,
+  AuthResponse,
+  LoginCredentials,
+  SignupCredentials,
+  ForgotPasswordData,
+  ResetPasswordData,
+  AuthError,
+  FormFieldError,
+  ValidationResult,
+  AuthContextType
+} from '@/features/auth';
 
 export interface AnalysisSession {
   id: string;
